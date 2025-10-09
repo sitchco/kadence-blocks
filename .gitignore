@@ -1,7 +1,6 @@
 node_modules
 **/node_modules/**
 .DS_Store
-dist/
 zip/
 bin/strauss.phar
 .idea
