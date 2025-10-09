@@ -17,22 +17,6 @@
 		}
 	},
 	"repositories": [
-		{
-			"type": "vcs",
-			"url": "git@github.com:stellarwp/prophecy-container.git"
-		},
-		{
-			"type": "vcs",
-			"url": "git@github.com:stellarwp/prophecy-log.git"
-		},
-		{
-			"type": "vcs",
-			"url": "git@github.com:stellarwp/prophecy-image-downloader.git"
-		},
-		{
-			"type": "vcs",
-			"url": "git@github.com:stellarwp/prophecy-storage.git"
-		}
 	],
 	"require": {
 		"composer/installers": "^2.0",
@@ -40,8 +24,6 @@
 		"lucatume/di52": "^4.0",
 		"psr/container": "^1.0",
 		"stellarwp/container-contract": "^1.1",
-		"stellarwp/prophecy-image-downloader": "^3.0",
-		"stellarwp/prophecy-storage": "^3.0",
 		"stellarwp/telemetry": "^2.3",
 		"stellarwp/uplink": "dev-bugfix/multisite-token-logic",
 		"symfony/translation-contracts": "^2.5"
@@ -62,7 +44,8 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"KadenceWP\\KadenceBlocks\\": "includes/resources"
+			"KadenceWP\\KadenceBlocks\\": "includes/resources",
+			"KadenceWP\\KadenceBlocks\\StellarWP\\ProphecyMonorepo\\": "prophecy"
 		}
 	},
 	"autoload-dev": {
