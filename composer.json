@@ -22,12 +22,20 @@
 		"adbario/php-dot-notation": "^3.3",
 		"composer/installers": "^2.0",
 		"enshrined/svg-sanitize": "^0.21.0",
+		"graham-campbell/result-type": "^1.1",
 		"lucatume/di52": "^4.0",
+		"monolog/monolog": "^2.10",
 		"psr/container": "^1.0",
 		"stellarwp/container-contract": "^1.1",
 		"stellarwp/telemetry": "^2.3",
 		"stellarwp/uplink": "dev-bugfix/multisite-token-logic",
-		"symfony/translation-contracts": "^2.5"
+		"symfony/filesystem": "^5.4",
+		"symfony/http-client": "^5.4",
+		"symfony/http-foundation": "^5.4",
+		"symfony/mime": "^5.4",
+		"symfony/string": "^5.4",
+		"symfony/translation-contracts": "^2.5",
+		"vlucas/phpdotenv": "^5.6"
 	},
 	"require-dev": {
 		"automattic/vipwpcs": "^3.0",

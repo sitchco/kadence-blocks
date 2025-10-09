@@ -1,6 +1,6 @@
 <?php
 /**
- * The API provided by a Builder that can be re-initialized.
+ * The API Kadence_Blocks_provided by a Builder that can be re-initialized.
  *
  * @package KadenceWP\KadenceBlocks\lucatume\DI52\Builders
  *

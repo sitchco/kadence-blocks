@@ -1,6 +1,6 @@
 <?php
 /**
- * The API provided by each builder.
+ * The API Kadence_Blocks_provided by each builder.
  *
  * @package lucatume\DI52
  *
