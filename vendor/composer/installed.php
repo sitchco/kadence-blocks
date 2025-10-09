@@ -3,13 +3,22 @@
         'name' => 'kadencewp/kadence-blocks',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '86d39ae8080b9ea9d195666090e8ce880c28570e',
+        'reference' => '9d4688d64ab5d98575ec1e063932a679076220e2',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => false,
     ),
     'versions' => array(
+        'adbario/php-dot-notation' => array(
+            'pretty_version' => '3.3.0',
+            'version' => '3.3.0.0',
+            'reference' => 'a94ce4493d19ea430baa8d7d210a2c9bd7129fc2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../adbario/php-dot-notation',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'composer/installers' => array(
             'pretty_version' => 'v2.3.0',
             'version' => '2.3.0.0',
@@ -31,7 +40,7 @@
         'kadencewp/kadence-blocks' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '86d39ae8080b9ea9d195666090e8ce880c28570e',
+            'reference' => '9d4688d64ab5d98575ec1e063932a679076220e2',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

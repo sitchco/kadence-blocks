@@ -241,4 +241,5 @@ return array(
    'KadenceWP\KadenceBlocks\Symfony\Contracts\Translation\LocaleAwareInterface' => $strauss_src . '/symfony/translation-contracts/LocaleAwareInterface.php',
    'KadenceWP\KadenceBlocks\Symfony\Contracts\Translation\Test\TranslatorTest' => $strauss_src . '/symfony/translation-contracts/Test/TranslatorTest.php',
    'KadenceWP\KadenceBlocks\Symfony\Contracts\Translation\TranslatorTrait' => $strauss_src . '/symfony/translation-contracts/TranslatorTrait.php',
+   'KadenceWP\KadenceBlocks\Adbar\Dot' => $strauss_src . '/adbario/php-dot-notation/src/Dot.php',
 );
