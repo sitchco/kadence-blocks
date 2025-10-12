@@ -131,16 +131,7 @@ export const COLUMN_WIDTH_MAP = applyFilters('kadence.constants.blocks.rowlayout
 	},
 });
 
-export const PADDING_RESIZE_MAP = applyFilters('kadence.constants.blocks.rowlayout.paddingResizeMap', [
-	0,
-	8,
-	16,
-	24,
-	32,
-	48,
-	64,
-	80,
-	104,
-	128,
-	160,
-]);
+export const PADDING_RESIZE_MAP = applyFilters(
+	'kadence.constants.blocks.rowlayout.paddingResizeMap',
+	[0, 8, 16, 24, 32, 48, 64, 80, 104, 128, 160]
+);

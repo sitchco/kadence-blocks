@@ -388,4 +388,3 @@ export const POPOVER_TUTORIAL_OPTIONS_CONTENT = applyFilters(
 		},
 	}
 );
-

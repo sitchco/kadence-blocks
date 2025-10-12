@@ -19,11 +19,14 @@ export const ALLOWED_BLOCKS = applyFilters('kadence.constants.blocks.navigation.
 	'core/buttons',
 ]);
 
-export const PRIORITIZED_INSERTER_BLOCKS = applyFilters('kadence.constants.blocks.navigation.prioritizedInserterBlocks', [
-	'kadence/navigation-link',
-	// 'core/navigation-link/page',
-	// 'core/navigation-link',
-]);
+export const PRIORITIZED_INSERTER_BLOCKS = applyFilters(
+	'kadence.constants.blocks.navigation.prioritizedInserterBlocks',
+	[
+		'kadence/navigation-link',
+		// 'core/navigation-link/page',
+		// 'core/navigation-link',
+	]
+);
 
 // These parameters must be kept aligned with those in
 // lib/compat/wordpress-6.3/navigation-block-preloading.php

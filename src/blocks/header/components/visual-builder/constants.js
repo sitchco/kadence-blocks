@@ -27,11 +27,8 @@ export const DESKTOP_CLIENT_ID_POSITIONS = applyFilters(
 	]
 );
 
-export const ROW_TO_KEY = applyFilters(
-	'kadence.constants.blocks.header.components.visual-builder.rowToKey',
-	{
-		top: 0,
-		middle: 1,
-		bottom: 2,
-	}
-);
+export const ROW_TO_KEY = applyFilters('kadence.constants.blocks.header.components.visual-builder.rowToKey', {
+	top: 0,
+	middle: 1,
+	bottom: 2,
+});
