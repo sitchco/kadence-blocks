@@ -2,6 +2,7 @@ import { SectionTitle } from './components';
 import { Icon, SVG } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { aiIcon } from '@kadence/icons';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Images
@@ -9,7 +10,7 @@ import { aiIcon } from '@kadence/icons';
 import blocksPro from './images/blocks-pro.png';
 import bundles from './images/bundles.png';
 
-export const AUTHENTICATED_CONTENT = {
+export const AUTHENTICATED_CONTENT = applyFilters('kadence.constants.dashboard.authenticatedContent', {
 	largeBanner: {
 		heading: <>{__("Let's build,", 'kadence-blocks')}</>,
 		subHeading: '',
@@ -201,9 +202,9 @@ export const AUTHENTICATED_CONTENT = {
 			},
 		],
 	},
-};
+});
 
-export const UNAUTHENTICATED_CONTENT = {
+export const UNAUTHENTICATED_CONTENT = applyFilters('kadence.constants.dashboard.unauthenticatedContent', {
 	largeBanner: {
 		heading: (
 			<>
@@ -383,4 +384,4 @@ export const UNAUTHENTICATED_CONTENT = {
 			},
 		],
 	},
-};
+});

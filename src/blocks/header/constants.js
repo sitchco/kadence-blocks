@@ -1,7 +1,8 @@
+import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
 
-export const HEADER_INNERBLOCK_DEFAULTS = [
+export const HEADER_INNERBLOCK_DEFAULTS = applyFilters('kadence.constants.blocks.header.headerInnerblockDefaults', [
 	createBlock('kadence/header-container-desktop', {}, [
 		createBlock('kadence/header-row', { metadata: { name: __('Top Row', 'kadence-blocks') }, location: 'top' }, [
 			createBlock(
@@ -188,12 +189,12 @@ export const HEADER_INNERBLOCK_DEFAULTS = [
 		),
 	]),
 	createBlock('kadence/off-canvas', {}, []),
-];
+]);
 
-export const HEADER_ALLOWED_BLOCKS = [
+export const HEADER_ALLOWED_BLOCKS = applyFilters('kadence.constants.blocks.header.headerAllowedBlocks', [
 	'kadence/header-container-desktop',
 	'kadence/header-container-tablet',
 	'kadence/header-row',
 	'kadence/header-column',
 	'kadence/off-canvas',
-];
+]);

@@ -2,8 +2,9 @@
  * Internal block libraries
  */
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 
-export const BLEND_OPTIONS = [
+export const BLEND_OPTIONS = applyFilters('kadence.constants.blocks.rowlayout.blendOptions', [
 	{ value: 'normal', label: __('Normal', 'kadence-blocks') },
 	{ value: 'multiply', label: __('Multiply', 'kadence-blocks') },
 	{ value: 'screen', label: __('Screen', 'kadence-blocks') },
@@ -18,8 +19,8 @@ export const BLEND_OPTIONS = [
 	{ value: 'saturation', label: __('Saturation', 'kadence-blocks') },
 	{ value: 'color', label: __('Color', 'kadence-blocks') },
 	{ value: 'luminosity', label: __('Luminosity', 'kadence-blocks') },
-];
-export const SPACING_SIZES_MAP = [
+]);
+export const SPACING_SIZES_MAP = applyFilters('kadence.constants.blocks.rowlayout.spacingSizesMap', [
 	{
 		value: '0',
 		label: __('None', 'kadence-blocks'),
@@ -96,10 +97,10 @@ export const SPACING_SIZES_MAP = [
 		label: __('5XL', 'kadence-blocks'),
 		name: __('5X Large', 'kadence-blocks'),
 	},
-];
+]);
 
 //Mapping of column amounts and their colLayout values to what each column width should be.
-export const COLUMN_WIDTH_MAP = {
+export const COLUMN_WIDTH_MAP = applyFilters('kadence.constants.blocks.rowlayout.columnWidthMap', {
 	1: {
 		equal: [100],
 	},
@@ -128,6 +129,9 @@ export const COLUMN_WIDTH_MAP = {
 	6: {
 		equal: [16.66, 16.66, 16.66, 16.66, 16.66, 16.66],
 	},
-};
+});
 
-export const PADDING_RESIZE_MAP = [0, 8, 16, 24, 32, 48, 64, 80, 104, 128, 160];
+export const PADDING_RESIZE_MAP = applyFilters(
+	'kadence.constants.blocks.rowlayout.paddingResizeMap',
+	[0, 8, 16, 24, 32, 48, 64, 80, 104, 128, 160]
+);

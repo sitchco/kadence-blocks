@@ -1,37 +1,47 @@
 /**
  * WordPress dependencies
  */
-export const API_ROUTE_GET_IMAGES = '/kb-design-library/v1/get_images';
-export const COLLECTION_SESSION_KEY = 'kadence_ai_current_collection';
+import { applyFilters } from '@wordpress/hooks';
+export const API_ROUTE_GET_IMAGES = applyFilters(
+	'kadence.constants.plugins.prebuilt-library.data-fetch.apiRouteGetImages',
+	'/kb-design-library/v1/get_images'
+);
+export const COLLECTION_SESSION_KEY = applyFilters(
+	'kadence.constants.plugins.prebuilt-library.data-fetch.collectionSessionKey',
+	'kadence_ai_current_collection'
+);
 
 import { __, sprintf } from '@wordpress/i18n';
 
-export const PATTERN_CATEGORIES = {
-	category: __('Category', 'kadence-blocks'),
-	hero: __('Hero', 'kadence-blocks'),
-	cards: __('Cards', 'kadence-blocks'),
-	columns: __('Columns', 'kadence-blocks'),
-	'media-text': __('Media and Text', 'kadence-blocks'),
-	'counter-or-stats': __('Counter or Stats', 'kadence-blocks'),
-	form: __('Form', 'kadence-blocks'),
-	gallery: __('Gallery', 'kadence-blocks'),
-	accordion: __('Accordion', 'kadence-blocks'),
-	image: __('Image', 'kadence-blocks'),
-	list: __('List', 'kadence-blocks'),
-	location: __('Location', 'kadence-blocks'),
-	'logo-farm': __('Logo Farm', 'kadence-blocks'),
-	team: __('Team', 'kadence-blocks'),
-	'post-loop': __('Post Loop', 'kadence-blocks'),
-	'pricing-table': __('Pricing Table', 'kadence-blocks'),
-	slider: __('Slider', 'kadence-blocks'),
-	tabs: __('Tabs', 'kadence-blocks'),
-	testimonials: __('Testimonials', 'kadence-blocks'),
-	text: __('Text', 'kadence-blocks'),
-	'title-or-header': __('Title or Header', 'kadence-blocks'),
-	menu: __('Menu', 'kadence-blocks'),
-	video: __('Video', 'kadence-blocks'),
-};
-export const PATTERN_CONTEXTS = {
+export const PATTERN_CATEGORIES = applyFilters(
+	'kadence.constants.plugins.prebuilt-library.data-fetch.patternCategories',
+	{
+		category: __('Category', 'kadence-blocks'),
+		hero: __('Hero', 'kadence-blocks'),
+		cards: __('Cards', 'kadence-blocks'),
+		columns: __('Columns', 'kadence-blocks'),
+		'media-text': __('Media and Text', 'kadence-blocks'),
+		'counter-or-stats': __('Counter or Stats', 'kadence-blocks'),
+		form: __('Form', 'kadence-blocks'),
+		gallery: __('Gallery', 'kadence-blocks'),
+		accordion: __('Accordion', 'kadence-blocks'),
+		image: __('Image', 'kadence-blocks'),
+		list: __('List', 'kadence-blocks'),
+		location: __('Location', 'kadence-blocks'),
+		'logo-farm': __('Logo Farm', 'kadence-blocks'),
+		team: __('Team', 'kadence-blocks'),
+		'post-loop': __('Post Loop', 'kadence-blocks'),
+		'pricing-table': __('Pricing Table', 'kadence-blocks'),
+		slider: __('Slider', 'kadence-blocks'),
+		tabs: __('Tabs', 'kadence-blocks'),
+		testimonials: __('Testimonials', 'kadence-blocks'),
+		text: __('Text', 'kadence-blocks'),
+		'title-or-header': __('Title or Header', 'kadence-blocks'),
+		menu: __('Menu', 'kadence-blocks'),
+		video: __('Video', 'kadence-blocks'),
+	}
+);
+export const PATTERN_CONTEXTS = applyFilters('kadence.constants.plugins.prebuilt-library.data-fetch.patternContexts', {
 	'value-prop': __('Value Proposition', 'kadence-blocks'),
 	'products-services': __('Products or Services', 'kadence-blocks'),
 	about: __('About', 'kadence-blocks'),
@@ -59,8 +69,8 @@ export const PATTERN_CONTEXTS = {
 	industries: __('Industries', 'kadence-blocks'),
 	volunteer: __('Volunteer', 'kadence-blocks'),
 	support: __('Support', 'kadence-blocks'),
-};
-export const CONTEXTS_STATES = {
+});
+export const CONTEXTS_STATES = applyFilters('kadence.constants.plugins.prebuilt-library.data-fetch.contextsStates', {
 	'value-prop': false,
 	'products-services': false,
 	about: false,
@@ -88,8 +98,8 @@ export const CONTEXTS_STATES = {
 	industries: false,
 	volunteer: false,
 	support: false,
-};
-export const CONTEXTS_IN_PAGES = {
+});
+export const CONTEXTS_IN_PAGES = applyFilters('kadence.constants.plugins.prebuilt-library.data-fetch.contextsInPages', {
 	'value-prop': false,
 	'products-services': false,
 	about: false,
@@ -117,15 +127,15 @@ export const CONTEXTS_IN_PAGES = {
 	industries: false,
 	//'volunteer': false,
 	// 'support': false,
-};
-export const PAGE_CATEGORIES = {
+});
+export const PAGE_CATEGORIES = applyFilters('kadence.constants.plugins.prebuilt-library.data-fetch.pageCategories', {
 	category: __('Category', 'kadence-blocks'),
 	home: __('Home', 'kadence-blocks'),
 	about: __('About', 'kadence-blocks'),
 	contact: __('Contact', 'kadence-blocks'),
 	services: __('Services', 'kadence-blocks'),
-};
-export const CONTEXT_PROMPTS = {
+});
+export const CONTEXT_PROMPTS = applyFilters('kadence.constants.plugins.prebuilt-library.data-fetch.contextPrompts', {
 	'value-prop': '6',
 	'products-services': '8',
 	about: '5',
@@ -153,4 +163,4 @@ export const CONTEXT_PROMPTS = {
 	industries: '5',
 	volunteer: '5',
 	support: '4',
-};
+});
