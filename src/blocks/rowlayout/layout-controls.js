@@ -59,6 +59,8 @@ import { Fragment } from '@wordpress/element';
 
 import { ToggleControl, SelectControl } from '@wordpress/components';
 
+import { applyFilters } from '@wordpress/hooks';
+
 /**
  * Internal block libraries
  */
@@ -262,6 +264,7 @@ function LayoutControls({
 	} else {
 		layoutOptions = [{ value: 'equal', label: __('Single Row', 'kadence-blocks'), icon: rowIcon }];
 	}
+	layoutOptions = applyFilters('kadence.blocks.rowlayout.layoutOptions', layoutOptions, columns);
 	if (2 === columns) {
 		mobileLayoutOptions = [
 			{ value: 'equal', label: __('Equal', 'kadence-blocks'), icon: twoColIcon },
@@ -315,7 +318,28 @@ function LayoutControls({
 	} else {
 		mobileLayoutOptions = [{ value: 'row', label: __('Single Row', 'kadence-blocks'), icon: rowIcon }];
 	}
+	mobileLayoutOptions = applyFilters('kadence.blocks.rowlayout.mobileLayoutOptions', mobileLayoutOptions, columns);
 	const selectColLayout = columns ? widthString : colLayout;
+	const columnGutterOptions = applyFilters(
+		'kadence.blocks.rowlayout.columnGutterOptions',
+		[
+			{ value: 'none', size: 0, label: __('None', 'kadence-blocks') },
+			{ value: 'skinny', size: 16, label: __('SM', 'kadence-blocks') },
+			{ value: 'default', size: 32, label: __('MD', 'kadence-blocks') },
+			{ value: 'wider', size: 64, label: __('LG', 'kadence-blocks') },
+		],
+		columns
+	);
+	const rowGutterOptions = applyFilters(
+		'kadence.blocks.rowlayout.rowGutterOptions',
+		[
+			{ value: 'none', size: 0, label: __('None', 'kadence-blocks') },
+			{ value: 'skinny', size: 10, label: __('Sm', 'kadence-blocks') },
+			{ value: 'default', size: 30, label: __('Md', 'kadence-blocks') },
+			{ value: 'wider', size: 60, label: __('Lg', 'kadence-blocks') },
+		],
+		columns
+	);
 	return (
 		<Fragment>
 			<>
@@ -438,12 +462,7 @@ function LayoutControls({
 								<>
 									<ResponsiveRadioRangeControls
 										label={__('Column Gutter', 'kadence-blocks')}
-										options={[
-											{ value: 'none', size: 0, label: __('None', 'kadence-blocks') },
-											{ value: 'skinny', size: 16, label: __('SM', 'kadence-blocks') },
-											{ value: 'default', size: 32, label: __('MD', 'kadence-blocks') },
-											{ value: 'wider', size: 64, label: __('LG', 'kadence-blocks') },
-										]}
+										options={columnGutterOptions}
 										value={{
 											value: undefined !== columnGutter ? columnGutter : 'default',
 											size:
@@ -497,12 +516,7 @@ function LayoutControls({
 							)}
 							<ResponsiveRadioRangeControls
 								label={__('Row Gutter', 'kadence-blocks')}
-								options={[
-									{ value: 'none', size: 0, label: __('None', 'kadence-blocks') },
-									{ value: 'skinny', size: 10, label: __('Sm', 'kadence-blocks') },
-									{ value: 'default', size: 30, label: __('Md', 'kadence-blocks') },
-									{ value: 'wider', size: 60, label: __('Lg', 'kadence-blocks') },
-								]}
+								options={rowGutterOptions}
 								value={{
 									value: undefined !== collapseGutter ? collapseGutter : 'default',
 									size:
