@@ -259,6 +259,9 @@ class Kadence_Blocks_CSS {
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_block_css' ), 180 );
+		$this->spacing_sizes = apply_filters( 'kadence_blocks_css_spacing_sizes', $this->spacing_sizes );
+		$this->font_sizes = apply_filters( 'kadence_blocks_css_font_sizes', $this->font_sizes );
+		$this->gap_sizes = apply_filters( 'kadence_blocks_css_gap_sizes', $this->spacing_sizes );
 	}
 
 	/**
@@ -1503,7 +1506,7 @@ class Kadence_Blocks_CSS {
 		return $shadow_string;
 	}
 
-	
+
 	/**
 	 * Generates the border radius color output.
 	 *

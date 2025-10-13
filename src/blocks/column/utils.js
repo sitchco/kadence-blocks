@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 
 export function getPreviewGutterSize(previewDevice, columnGutter, customGutter, gutterType) {
 	const columnGutterString = undefined !== columnGutter ? columnGutter : 'unset';
@@ -36,5 +37,12 @@ export function getPreviewGutterSize(previewDevice, columnGutter, customGutter, 
 			gutter = custom;
 			break;
 	}
-	return gutter;
+	return applyFilters(
+		'kadence.block.column.previewGutterSize',
+		gutter,
+		previewDevice,
+		columnGutter,
+		customGutter,
+		gutterType
+	);
 }
