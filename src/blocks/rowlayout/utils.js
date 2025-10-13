@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 
 import { SPACING_SIZES_MAP } from './constants';
 export function getGutterPercentUnit(columnGutter, customGutter, gutterType) {
@@ -65,7 +66,14 @@ export function getPreviewGutterSize(previewDevice, columnGutter, customGutter, 
 			gutter = custom;
 			break;
 	}
-	return gutter;
+	return applyFilters(
+		'kadence.block.rowlayout.previewGutterSize',
+		gutter,
+		previewDevice,
+		columnGutter,
+		customGutter,
+		gutterType
+	);
 }
 export function getSpacingOptionName(value, unit) {
 	if (!value) {
