@@ -1781,12 +1781,31 @@ function SectionEdit(props) {
 											<>
 												<ResponsiveRadioRangeControls
 													label={__('Horizontal Gap', 'kadence-blocks')}
-													options={[
-														{ value: 'none', size: 0, label: __('None', 'kadence-blocks') },
-														{ value: 'sm', size: 16, label: __('Sm', 'kadence-blocks') },
-														{ value: 'md', size: 32, label: __('Md', 'kadence-blocks') },
-														{ value: 'lg', size: 64, label: __('Lg', 'kadence-blocks') },
-													]}
+													options={applyFilters(
+														'kadence.blocks.column.horizontalGapOptions',
+														[
+															{
+																value: 'none',
+																size: 0,
+																label: __('None', 'kadence-blocks'),
+															},
+															{
+																value: 'sm',
+																size: 16,
+																label: __('Sm', 'kadence-blocks'),
+															},
+															{
+																value: 'md',
+																size: 32,
+																label: __('Md', 'kadence-blocks'),
+															},
+															{
+																value: 'lg',
+																size: 64,
+																label: __('Lg', 'kadence-blocks'),
+															},
+														]
+													)}
 													value={{
 														value:
 															undefined !== gutterVariable?.[0] &&
@@ -1878,12 +1897,12 @@ function SectionEdit(props) {
 												/>
 												<ResponsiveRadioRangeControls
 													label={__('Vertical Gap', 'kadence-blocks')}
-													options={[
+													options={applyFilters('kadence.blocks.column.verticalGapOptions', [
 														{ value: 'none', size: 0, label: __('None', 'kadence-blocks') },
 														{ value: 'sm', size: 16, label: __('Sm', 'kadence-blocks') },
 														{ value: 'md', size: 32, label: __('Md', 'kadence-blocks') },
 														{ value: 'lg', size: 64, label: __('Lg', 'kadence-blocks') },
-													]}
+													])}
 													value={{
 														value:
 															undefined !== rowGapVariable?.[0]
@@ -2110,12 +2129,12 @@ function SectionEdit(props) {
 											<>
 												<ResponsiveRadioRangeControls
 													label={__('Vertical Gap', 'kadence-blocks')}
-													options={[
+													options={applyFilters('kadence.blocks.column.verticalGapOptions', [
 														{ value: 'none', size: 0, label: __('None', 'kadence-blocks') },
 														{ value: 'sm', size: 16, label: __('Sm', 'kadence-blocks') },
 														{ value: 'md', size: 32, label: __('Md', 'kadence-blocks') },
 														{ value: 'lg', size: 64, label: __('Lg', 'kadence-blocks') },
-													]}
+													])}
 													value={{
 														value:
 															undefined !== rowGapVariable?.[0]
