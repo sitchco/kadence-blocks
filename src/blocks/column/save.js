@@ -34,10 +34,14 @@ function Save({ attributes }) {
 		direction,
 		overlayGradient,
 		overlayGradientHover,
+		rowGap
 	} = attributes;
 	const deskDirection = direction && '' !== direction[0] ? direction[0] : false;
 	const tabDirection = direction && '' !== direction[1] ? direction[1] : false;
 	const mobileDirection = direction && '' !== direction[2] ? direction[2] : false;
+	const deskHasRowGap = rowGap && '' !== rowGap[0];
+	const tabHasRowGap = rowGap && '' !== rowGap[1];
+	const mobileHasRowGap = rowGap && '' !== rowGap[2];
 	const hasOverlay =
 		overlay ||
 		overlayGradient ||
@@ -59,6 +63,9 @@ function Save({ attributes }) {
 		[`kb-section-dir-${deskDirection}`]: deskDirection,
 		[`kb-section-md-dir-${tabDirection}`]: tabDirection,
 		[`kb-section-sm-dir-${mobileDirection}`]: mobileDirection,
+		'kvs-has-row-gap-lg': deskHasRowGap,
+		'kvs-has-row-gap-md': tabHasRowGap,
+		'kvs-has-row-gap-sm': mobileHasRowGap,
 	});
 	let relAttr;
 	if (linkTarget) {
