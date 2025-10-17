@@ -63,9 +63,9 @@ function Save({ attributes }) {
 		[`kb-section-dir-${deskDirection}`]: deskDirection,
 		[`kb-section-md-dir-${tabDirection}`]: tabDirection,
 		[`kb-section-sm-dir-${mobileDirection}`]: mobileDirection,
-		'kvs-has-row-gap-lg': deskHasRowGap,
-		'kvs-has-row-gap-md': tabHasRowGap,
-		'kvs-has-row-gap-sm': mobileHasRowGap,
+		'kb-has-row-gap-lg': deskHasRowGap,
+		'kb-has-row-gap-md': tabHasRowGap,
+		'kb-has-row-gap-sm': mobileHasRowGap,
 	});
 	let relAttr;
 	if (linkTarget) {

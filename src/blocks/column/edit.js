@@ -985,12 +985,10 @@ function SectionEdit(props) {
 	);
 	const horizontalGap = getPreviewGutterSize(previewDevice, previewGutterVariable, gutter, gutterUnit);
 
-	const previewRowGap = getPreviewSize(
-		previewDevice,
-		rowGap && '' !== rowGap[0] ? rowGap[0] : '',
-		rowGap && '' !== rowGap[1] ? rowGap[1] : '',
-		rowGap && '' !== rowGap[2] ? rowGap[2] : ''
-	);
+	const deskHasRowGap = rowGap && '' !== rowGap[0];
+	const tabHasRowGap = rowGap && '' !== rowGap[1];
+	const mobileHasRowGap = rowGap && '' !== rowGap[2];
+
 	const previewRowGapVariable = getPreviewSize(
 		previewDevice,
 		rowGapVariable && '' !== rowGapVariable[0] ? rowGapVariable[0] : 'none',
@@ -1131,6 +1129,9 @@ function SectionEdit(props) {
 			previewFlexBasis ||
 			flexRowGapVariable ||
 			previewVerticalAlign,
+		'kb-has-row-gap-lg': deskHasRowGap,
+		'kb-has-row-gap-md': tabHasRowGap,
+		'kb-has-row-gap-sm': mobileHasRowGap,
 	});
 	const blockProps = useBlockProps({
 		className: classes,
