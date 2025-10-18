@@ -34,14 +34,14 @@ function Save({ attributes }) {
 		direction,
 		overlayGradient,
 		overlayGradientHover,
-		rowGap
+		rowGap,
 	} = attributes;
 	const deskDirection = direction && '' !== direction[0] ? direction[0] : false;
 	const tabDirection = direction && '' !== direction[1] ? direction[1] : false;
 	const mobileDirection = direction && '' !== direction[2] ? direction[2] : false;
-	const deskHasRowGap = rowGap && '' !== rowGap[0];
-	const tabHasRowGap = rowGap && '' !== rowGap[1];
-	const mobileHasRowGap = rowGap && '' !== rowGap[2];
+	const deskHasRowGap = ![undefined, null, ''].includes(rowGap?.[0]);
+	const tabHasRowGap = ![undefined, null, ''].includes(rowGap?.[1]);
+	const mobileHasRowGap = ![undefined, null, ''].includes(rowGap?.[2]);
 	const hasOverlay =
 		overlay ||
 		overlayGradient ||
