@@ -985,9 +985,9 @@ function SectionEdit(props) {
 	);
 	const horizontalGap = getPreviewGutterSize(previewDevice, previewGutterVariable, gutter, gutterUnit);
 
-	const deskHasRowGap = rowGap && '' !== rowGap[0];
-	const tabHasRowGap = rowGap && '' !== rowGap[1];
-	const mobileHasRowGap = rowGap && '' !== rowGap[2];
+	const deskHasRowGap = ![undefined, null, ''].includes(rowGap?.[0]);
+	const tabHasRowGap = ![undefined, null, ''].includes(rowGap?.[1]);
+	const mobileHasRowGap = ![undefined, null, ''].includes(rowGap?.[2]);
 
 	const previewRowGapVariable = getPreviewSize(
 		previewDevice,
