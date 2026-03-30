@@ -1957,6 +1957,7 @@ function KadenceTabs(props) {
 																		onUnit={(value) =>
 																			setAttributes({ titlePaddingUnit: value })
 																		}
+																		options={SPACING_SIZES_MAP}
 																	/>
 																	<ResponsiveMeasureRangeControl
 																		label={__('Title Margin', 'kadence-blocks')}
@@ -2026,6 +2027,7 @@ function KadenceTabs(props) {
 												unit={titlePaddingUnit}
 												units={['px', 'em', 'rem']}
 												onUnit={(value) => setAttributes({ titlePaddingUnit: value })}
+												options={SPACING_SIZES_MAP}
 											/>
 											<ResponsiveMeasureRangeControl
 												label={__('Title Margin', 'kadence-blocks')}
@@ -2041,6 +2043,7 @@ function KadenceTabs(props) {
 												unit={titleMarginUnit}
 												units={['px', 'em', 'rem']}
 												onUnit={(value) => setAttributes({ titleMarginUnit: value })}
+												options={SPACING_SIZES_MAP}
 												allowAuto={true}
 											/>
 										</Fragment>
