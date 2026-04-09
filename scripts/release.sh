@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# release.sh — Tag a release on the release branch.
+# release.sh — Tag a release with built assets on a dedicated release branch.
 #
 # Usage:
 #   ./scripts/release.sh          → converts upstream version to fork version (e.g. 3.6.7 → 1003.6.7.0)
@@ -9,9 +9,15 @@
 # This script:
 #   1. Ensures we're on the release branch with a clean tree
 #   2. Sets the version via set-version.mjs (auto-convert or bump)
-#   3. Commits the version change
-#   4. Tags with the fork version
-#   5. Pushes the branch and tag to origin
+#   3. Commits the version change to release
+#   4. Creates release/<tag> from release
+#   5. Runs npm build and force-adds dist/
+#   6. Commits the build artifacts and tags release/<tag>
+#   7. Pushes release, the release/<tag> branch, and the tag to origin
+#
+# The release branch stays free of build artifacts. Tags and built
+# assets live on release/<tag> branches, which is what downstream
+# consumers (composer, deployments) should reference.
 #
 set -euo pipefail
 
@@ -30,6 +36,11 @@ if ! git diff --quiet || ! git diff --cached --quiet; then
     exit 1
 fi
 
+if [ ! -d "${REPO_ROOT}/node_modules" ]; then
+    echo "Error: node_modules not found. Run 'npm install' first."
+    exit 1
+fi
+
 # --- Set version ---
 
 VERSION_OUTPUT=$(node "${REPO_ROOT}/scripts/set-version.mjs" "$@")
@@ -45,6 +56,7 @@ if [ -z "${VERSION}" ]; then
 fi
 
 TAG="v${VERSION}"
+RELEASE_BRANCH="release/${VERSION}"
 
 # Check if tag already exists
 if git rev-parse "refs/tags/${TAG}" &>/dev/null; then
@@ -53,11 +65,23 @@ if git rev-parse "refs/tags/${TAG}" &>/dev/null; then
     exit 1
 fi
 
-# --- Commit and tag ---
+# --- Commit version bump to release ---
 
 echo ""
-echo "==> Committing version ${VERSION}..."
+echo "==> Committing version ${VERSION} to release..."
 git add kadence-blocks.php readme.txt
+git commit -m "Version ${VERSION}"
+
+# --- Create release branch and build ---
+
+echo "==> Creating ${RELEASE_BRANCH} from release..."
+git checkout -b "${RELEASE_BRANCH}"
+
+echo "==> Building assets..."
+npm run build
+
+echo "==> Adding dist/ to ${RELEASE_BRANCH}..."
+git add -f dist/
 git commit -m "Release ${TAG}"
 
 echo "==> Tagging ${TAG}..."
@@ -65,8 +89,11 @@ git tag "${TAG}"
 
 # --- Push ---
 
-echo "==> Pushing release branch and tag to origin..."
-git push origin release "${TAG}"
+echo "==> Pushing to origin..."
+git checkout release
+git push origin release "${RELEASE_BRANCH}" "${TAG}"
 
 echo ""
 echo "==> Released ${TAG}"
+echo "    Tag and built assets: ${RELEASE_BRANCH}"
+echo "    Working branch (release) has no build artifacts."
