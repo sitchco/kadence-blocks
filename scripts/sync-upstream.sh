@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 #
-# sync-upstream.sh — Sync fork with an upstream release tag.
+# sync-upstream.sh — Merge an upstream release tag into the release branch.
 #
 # Usage:
 #   ./scripts/sync-upstream.sh <tag>
 #   ./scripts/sync-upstream.sh 3.7.0
 #
-# Prerequisites:
-#   - Clean working tree
+# This script:
+#   1. Fetches upstream tags
+#   2. Creates a sync branch from release
+#   3. Merges the upstream tag into it
+#   4. Runs post-merge-fixup (patches composer.json/lock)
+#
+# After the script completes (or after resolving conflicts):
+#   1. Review and test changes
+#   2. Merge into release:  git checkout release && git merge sync/<tag>
+#   3. Tag the release:     ./scripts/release.sh
 #
 set -euo pipefail
 
@@ -38,8 +46,8 @@ if ! git rev-parse "refs/tags/${TAG}" &>/dev/null; then
     exit 1
 fi
 
-echo "Creating branch ${BRANCH} from current HEAD..."
-git checkout -b "${BRANCH}"
+echo "Creating branch ${BRANCH} from release..."
+git checkout -b "${BRANCH}" release
 
 # --- Merge upstream tag ---
 
@@ -50,6 +58,10 @@ if ! git merge "${TAG}" --no-edit; then
     echo "    1. Resolve conflicts (composer.json conflicts will be fixed by the fixup script)"
     echo "    2. git add -A && git commit"
     echo "    3. ./scripts/post-merge-fixup.sh"
+    echo ""
+    echo "    Then merge into release and tag:"
+    echo "    git checkout release && git merge ${BRANCH}"
+    echo "    ./scripts/release.sh"
     exit 1
 fi
 
@@ -59,6 +71,7 @@ echo "Merge clean. Running post-merge fixup..."
 
 echo ""
 echo "==> Sync complete on branch ${BRANCH}"
-echo "    Review changes, test, then merge to master:"
-echo "    git checkout master && git merge ${BRANCH}"
-echo "    git tag sitchco/${TAG}"
+echo "    Next steps:"
+echo "    1. Review and test changes"
+echo "    2. Merge into release:  git checkout release && git merge ${BRANCH}"
+echo "    3. Tag the release:     ./scripts/release.sh"
