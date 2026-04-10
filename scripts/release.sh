@@ -62,7 +62,7 @@ composer install --no-dev --no-interaction --working-dir="${REPO_ROOT}"
 echo ""
 echo "==> Committing version ${VERSION}..."
 git add "${REPO_ROOT}/kadence-blocks.php" "${REPO_ROOT}/readme.txt"
-git add -f "${REPO_ROOT}/vendor/" "${REPO_ROOT}/vendor-prefixed/"
+git add -f "${REPO_ROOT}/vendor/"
 git commit -m "Release ${TAG}"
 
 echo "==> Tagging ${TAG}..."

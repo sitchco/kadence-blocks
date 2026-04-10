@@ -29,8 +29,10 @@ echo ""
 echo "==> Running composer install to validate..."
 if composer install --no-interaction --working-dir="${REPO_ROOT}"; then
     echo ""
+    echo "==> Committing composer patches..."
+    git add "${REPO_ROOT}/composer.json" "${REPO_ROOT}/composer.lock"
+    git diff --cached --quiet || git commit -m "Apply fork composer patches"
     echo "==> Done. composer.json and composer.lock are clean."
-    echo "    Review changes with: git diff composer.json composer.lock"
 else
     echo ""
     echo "==> composer install failed. Check the output above."

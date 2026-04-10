@@ -76,11 +76,6 @@ echo "Merge clean. Running post-merge fixup..."
 "${REPO_ROOT}/scripts/post-merge-fixup.sh"
 
 echo ""
-echo "==> Committing composer patches..."
-git add "${REPO_ROOT}/composer.json" "${REPO_ROOT}/composer.lock"
-git commit -m "Apply fork composer patches for ${TAG}"
-
-echo ""
 echo "==> Sync complete on branch ${BRANCH}"
 echo "    Next steps:"
 echo "    1. Review and test changes"
