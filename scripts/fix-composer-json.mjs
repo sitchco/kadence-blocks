@@ -22,6 +22,7 @@ const PRIVATE_URLS = new Set([
 	'git@github.com:stellarwp/prophecy-storage.git',
 ]);
 
+// Static list — audit when upstream adds new prophecy-* packages.
 const PROPHECY_PACKAGES = [
 	'stellarwp/prophecy-container',
 	'stellarwp/prophecy-image-downloader',
@@ -68,8 +69,10 @@ if (data.autoload['psr-4'][AUTOLOAD_KEY] !== AUTOLOAD_PATH) {
 	changes.push('Added prophecy PSR-4 autoload mapping');
 }
 
-// Write back with tab indentation to match upstream style
-writeFileSync(composerPath, JSON.stringify(data, null, '\t') + '\n');
+// Write back with tab indentation to match upstream style (only if changes were made)
+if (changes.length > 0) {
+	writeFileSync(composerPath, JSON.stringify(data, null, '\t') + '\n');
+}
 
 // 4. Remove prophecy packages from composer.lock
 if (existsSync(lockPath)) {

@@ -23,11 +23,11 @@ echo ""
 echo "==> Updating composer.lock..."
 # --no-scripts prevents the post-update-cmd (strauss) from running,
 # which would fail because vendor/ doesn't exist yet.
-composer update --lock --no-install --no-scripts --no-interaction
+composer update --lock --no-install --no-scripts --no-interaction --working-dir="${REPO_ROOT}"
 
 echo ""
 echo "==> Running composer install to validate..."
-if composer install --no-interaction; then
+if composer install --no-interaction --working-dir="${REPO_ROOT}"; then
     echo ""
     echo "==> Done. composer.json and composer.lock are clean."
     echo "    Review changes with: git diff composer.json composer.lock"

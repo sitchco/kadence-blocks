@@ -13,11 +13,11 @@ upstream tag (e.g. 3.7.0)
 ```
 
 - **`release`** — The fork's main working branch. All fork patches, feature branches, and releases live here. This is what gets deployed and what downstream projects depend on.
-- **`master`** — Tracks upstream. Not used in the sync or release flow; exists as a clean reference point for diffing against upstream (`git diff master..release`).
+- **`master`** — Default branch. Not used in the sync or release flow.
 - **`sync/<tag>`** — Temporary branch created during an upstream sync. Branches from `release`, merges in the upstream tag, and gets merged back to `release` after review.
 - **Feature branches** — Branch from and merge to `release`.
 
-The key constraint: **`release` only moves forward via merge commits** — never rebased, never force-pushed. This ensures that tags, deployed SHAs, and composer lock references remain permanently valid.
+The key constraint: **`release` is never rebased or force-pushed** — it only advances via merge commits and release commits. This ensures that tags, deployed SHAs, and composer lock references remain permanently valid.
 
 ## Version Scheme
 

@@ -36,7 +36,7 @@ VERSION_OUTPUT=$(node "${REPO_ROOT}/scripts/set-version.mjs" "$@")
 echo "${VERSION_OUTPUT}"
 
 # Extract the version from the last line of output ("  Version: X.Y.Z.N")
-VERSION=$(echo "${VERSION_OUTPUT}" | grep "Version:" | awk '{print $NF}')
+VERSION=$(echo "${VERSION_OUTPUT}" | grep "Version:" | awk '{print $NF}' || true)
 
 if [ -z "${VERSION}" ]; then
     # No "Version:" line means it was already a fork version (no-op).
@@ -49,15 +49,20 @@ TAG="v${VERSION}"
 # Check if tag already exists
 if git rev-parse "refs/tags/${TAG}" &>/dev/null; then
     echo "Error: Tag '${TAG}' already exists."
-    git checkout kadence-blocks.php readme.txt
+    git checkout "${REPO_ROOT}/kadence-blocks.php" "${REPO_ROOT}/readme.txt"
     exit 1
 fi
 
 # --- Commit and tag ---
 
 echo ""
+echo "==> Building composer dependencies..."
+composer install --no-dev --no-interaction --working-dir="${REPO_ROOT}"
+
+echo ""
 echo "==> Committing version ${VERSION}..."
-git add kadence-blocks.php readme.txt
+git add "${REPO_ROOT}/kadence-blocks.php" "${REPO_ROOT}/readme.txt"
+git add -f "${REPO_ROOT}/vendor/" "${REPO_ROOT}/vendor-prefixed/"
 git commit -m "Release ${TAG}"
 
 echo "==> Tagging ${TAG}..."

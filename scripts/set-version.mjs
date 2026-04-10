@@ -36,6 +36,11 @@ function toForkVersion(input, forkPatch = 0) {
 		return input;
 	}
 
+	if (parts.length < 3) {
+		console.error(`Invalid version format: "${input}" — expected X.Y.Z`);
+		process.exit(1);
+	}
+
 	// Upstream version: 3.6.7 → 1003.6.7.0
 	const [major, minor, patch] = parts;
 	return `${FORK_MAJOR_OFFSET + major}.${minor}.${patch}.${forkPatch}`;

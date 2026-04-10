@@ -23,9 +23,7 @@
 		"lucatume/di52": "^4.0",
 		"psr/container": "^1.0",
 		"stellarwp/container-contract": "^1.1",
-		"stellarwp/db": "^1.1",
-		"stellarwp/schema": "^2.0",
-		"stellarwp/superglobals": "^1.3",
+		"monolog/monolog": "^2.0",
 		"stellarwp/telemetry": "^2.3",
 		"stellarwp/uplink": "dev-bugfix/multisite-token-logic",
 		"symfony/translation-contracts": "^2.5"

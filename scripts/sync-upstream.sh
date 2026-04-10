@@ -46,6 +46,12 @@ if ! git rev-parse "refs/tags/${TAG}" &>/dev/null; then
     exit 1
 fi
 
+if git rev-parse --verify "refs/heads/${BRANCH}" &>/dev/null; then
+    echo "Error: Branch '${BRANCH}' already exists (from a previous sync?)."
+    echo "       Delete it first: git branch -D ${BRANCH}"
+    exit 1
+fi
+
 echo "Creating branch ${BRANCH} from release..."
 git checkout -b "${BRANCH}" release
 
@@ -68,6 +74,11 @@ fi
 echo ""
 echo "Merge clean. Running post-merge fixup..."
 "${REPO_ROOT}/scripts/post-merge-fixup.sh"
+
+echo ""
+echo "==> Committing composer patches..."
+git add "${REPO_ROOT}/composer.json" "${REPO_ROOT}/composer.lock"
+git commit -m "Apply fork composer patches for ${TAG}"
 
 echo ""
 echo "==> Sync complete on branch ${BRANCH}"
