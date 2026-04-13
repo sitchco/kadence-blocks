@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * fix-composer-json.mjs — Remove private prophecy dependencies from composer.json
- * and composer.lock, and ensure the inlined prophecy/ PSR-4 autoload mapping is present.
+ * and composer.lock, auto-adopt their transitive dependencies, and ensure the
+ * inlined prophecy/ PSR-4 autoload mapping is present.
  *
  * Usage: node scripts/fix-composer-json.mjs [path/to/composer.json]
  *
@@ -23,12 +24,12 @@ const PRIVATE_URLS = new Set([
 ]);
 
 // Static list — audit when upstream adds new prophecy-* packages.
-const PROPHECY_PACKAGES = [
+const PROPHECY_PACKAGES = new Set([
 	'stellarwp/prophecy-container',
 	'stellarwp/prophecy-image-downloader',
 	'stellarwp/prophecy-log',
 	'stellarwp/prophecy-storage',
-];
+]);
 
 const AUTOLOAD_KEY = 'KadenceWP\\KadenceBlocks\\StellarWP\\ProphecyMonorepo\\';
 const AUTOLOAD_PATH = 'prophecy';
@@ -60,7 +61,59 @@ if (removedPackages.length > 0) {
 	changes.push(`Removed from require: ${removedPackages.join(', ')}`);
 }
 
-// 3. Ensure PSR-4 autoload for prophecy/ directory
+// 3. Auto-adopt transitive dependencies from prophecy packages
+//    Before stripping prophecy entries from the lock, read their require blocks
+//    and ensure those dependencies are present in composer.json.
+if (existsSync(lockPath)) {
+	const lockData = JSON.parse(readFileSync(lockPath, 'utf8'));
+	const allLockPackages = [
+		...(lockData.packages || []),
+		...(lockData['packages-dev'] || []),
+	];
+
+	// Build a map of package name -> resolved version from the lock
+	const resolvedVersions = new Map();
+	for (const pkg of allLockPackages) {
+		resolvedVersions.set(pkg.name, pkg.version);
+	}
+
+	// Collect transitive deps from prophecy packages
+	const transitiveDeps = new Map(); // dep name -> [source packages]
+	for (const pkg of allLockPackages) {
+		if (!PROPHECY_PACKAGES.has(pkg.name)) continue;
+		for (const [dep, constraint] of Object.entries(pkg.require || {})) {
+			if (dep.startsWith('php') || dep.startsWith('ext-')) continue;
+			if (PROPHECY_PACKAGES.has(dep)) continue;
+			if (!transitiveDeps.has(dep)) transitiveDeps.set(dep, []);
+			transitiveDeps.get(dep).push({ source: pkg.name, constraint });
+		}
+	}
+
+	// Add missing transitive deps to composer.json
+	const adopted = [];
+	for (const [dep, sources] of transitiveDeps) {
+		if (data.require?.[dep]) continue; // already explicitly required
+
+		const resolved = resolvedVersions.get(dep);
+		if (!resolved) continue; // not in lock — shouldn't happen but be safe
+
+		const caretConstraint = toCaretConstraint(resolved);
+		if (!data.require) data.require = {};
+		data.require[dep] = caretConstraint;
+		const sourceNames = sources.map((s) => s.source.replace('stellarwp/', '')).join(', ');
+		adopted.push(`${dep}: ${caretConstraint} (via ${sourceNames})`);
+	}
+
+	if (adopted.length > 0) {
+		// Sort require keys for consistency
+		data.require = Object.fromEntries(
+			Object.entries(data.require).sort(([a], [b]) => a.localeCompare(b))
+		);
+		changes.push(`Auto-adopted transitive dependencies:\n    ${adopted.join('\n    ')}`);
+	}
+}
+
+// 4. Ensure PSR-4 autoload for prophecy/ directory
 if (!data.autoload) data.autoload = {};
 if (!data.autoload['psr-4']) data.autoload['psr-4'] = {};
 
@@ -74,7 +127,7 @@ if (changes.length > 0) {
 	writeFileSync(composerPath, JSON.stringify(data, null, '\t') + '\n');
 }
 
-// 4. Remove prophecy packages from composer.lock
+// 5. Remove prophecy packages from composer.lock
 if (existsSync(lockPath)) {
 	const lockData = JSON.parse(readFileSync(lockPath, 'utf8'));
 	let lockRemoved = 0;
@@ -83,7 +136,7 @@ if (existsSync(lockPath)) {
 		if (Array.isArray(lockData[section])) {
 			const before = lockData[section].length;
 			lockData[section] = lockData[section].filter(
-				(pkg) => !PROPHECY_PACKAGES.includes(pkg.name)
+				(pkg) => !PROPHECY_PACKAGES.has(pkg.name)
 			);
 			lockRemoved += before - lockData[section].length;
 		}
@@ -103,4 +156,17 @@ if (changes.length > 0) {
 	}
 } else {
 	console.log('  composer.json already clean — no changes needed');
+}
+
+/**
+ * Convert a resolved version string (e.g. "v5.4.45", "2.11.0") to a caret
+ * constraint pinned to the major.minor (e.g. "^5.4", "^2.11").
+ */
+function toCaretConstraint(version) {
+	const clean = version.replace(/^v/i, '');
+	const parts = clean.split('.');
+	if (parts.length >= 2) {
+		return `^${parts[0]}.${parts[1]}`;
+	}
+	return `^${clean}`;
 }

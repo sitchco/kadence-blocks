@@ -82,6 +82,7 @@ Patches `composer.json` and `composer.lock` after an upstream merge to remove pr
 1. Runs `fix-composer-json.mjs` to patch both files
 2. Runs `composer update --lock` to recalculate the lock content-hash
 3. Runs `composer install` to validate everything resolves
+4. Stages and commits `composer.json` and `composer.lock` (skips commit if nothing changed)
 
 Safe to run multiple times (idempotent).
 
@@ -91,6 +92,7 @@ Node script that performs the actual JSON patching on `composer.json` and `compo
 
 - Removes the 4 private `stellarwp/prophecy-*` VCS repository entries
 - Removes prophecy packages from `require`
+- Auto-adopts transitive dependencies from prophecy packages (reads their `require` blocks from the lock before stripping, adds missing deps to `composer.json` with `^major.minor` constraints based on locked versions)
 - Removes prophecy packages from the lock file
 - Ensures the `prophecy/` PSR-4 autoload mapping is present
 
@@ -103,12 +105,15 @@ node scripts/fix-composer-json.mjs [path/to/composer.json]
 Reads and sets the plugin version across `kadence-blocks.php` and `readme.txt`.
 
 ```bash
-# Show current version
+# Auto-convert current upstream version to fork version (no-op if already fork)
 node scripts/set-version.mjs
 
-# Auto-convert upstream version to fork version (e.g. 3.7.0 → 1003.7.0.0)
-# No-op if already a fork version
-node scripts/set-version.mjs
+# Set from an explicit upstream version
+node scripts/set-version.mjs 3.6.7        # → 1003.6.7.0
+node scripts/set-version.mjs 3.6.7 2      # → 1003.6.7.2
+
+# Set an explicit fork version directly
+node scripts/set-version.mjs 1003.6.7.2   # → 1003.6.7.2
 
 # Increment the fork patch segment (e.g. 1003.7.0.0 → 1003.7.0.1)
 node scripts/set-version.mjs bump
@@ -128,9 +133,10 @@ Tags and pushes a release from the `release` branch.
 
 1. Verifies we're on the `release` branch with a clean working tree
 2. Runs `set-version.mjs` (auto-convert or bump)
-3. Commits the version change
-4. Creates a git tag (`v1003.7.0.0`)
-5. Pushes the branch and tag to origin
+3. Runs `composer install --no-dev` to build production dependencies
+4. Commits the version files and force-adds `vendor/`
+5. Creates a git tag (`v1003.7.0.0`)
+6. Pushes the branch and tag to origin
 
 ## Full Workflow Example
 
