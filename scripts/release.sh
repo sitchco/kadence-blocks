@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# release.sh — Tag a release on the release branch.
+# release.sh — Tag a release with built assets on a dedicated release branch.
 #
 # Usage:
 #   ./scripts/release.sh          → converts upstream version to fork version (e.g. 3.6.7 → 1003.6.7.0)
@@ -9,13 +9,30 @@
 # This script:
 #   1. Ensures we're on the release branch with a clean tree
 #   2. Sets the version via set-version.mjs (auto-convert or bump)
-#   3. Commits the version change
-#   4. Tags with the fork version
-#   5. Pushes the branch and tag to origin
+#   3. Commits the version change to release
+#   4. Creates release/<version> from release
+#   5. Builds composer (vendor/) and npm (dist/) assets
+#   6. Commits the build artifacts and tags release/<version>
+#   7. Pushes release, the release/<version> branch, and the tag to origin
+#
+# The release branch stays free of build artifacts. Tags and built
+# assets live on release/<version> branches, which is what downstream
+# consumers (composer, deployments) should reference.
 #
 set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+cleanup_on_error() {
+    echo ""
+    echo "==> Release failed. Returning to release branch."
+    git checkout release 2>/dev/null || true
+    echo "    To retry, you may need to:"
+    echo "    1. git reset --hard HEAD~1   (undo the version commit on release)"
+    echo "    2. git branch -D ${RELEASE_BRANCH:-}   (remove partial release branch)"
+    echo "    3. git tag -d ${TAG:-}   (remove partial tag)"
+}
+trap cleanup_on_error ERR
 
 # --- Preflight checks ---
 
@@ -27,6 +44,11 @@ fi
 
 if ! git diff --quiet || ! git diff --cached --quiet; then
     echo "Error: Working tree is not clean. Commit or stash changes first."
+    exit 1
+fi
+
+if [ ! -d "${REPO_ROOT}/node_modules" ]; then
+    echo "Error: node_modules not found. Run 'npm install' first."
     exit 1
 fi
 
@@ -45,6 +67,7 @@ if [ -z "${VERSION}" ]; then
 fi
 
 TAG="v${VERSION}"
+RELEASE_BRANCH="release/${VERSION}"
 
 # Check if tag already exists
 if git rev-parse "refs/tags/${TAG}" &>/dev/null; then
@@ -53,16 +76,37 @@ if git rev-parse "refs/tags/${TAG}" &>/dev/null; then
     exit 1
 fi
 
-# --- Commit and tag ---
+# --- Commit version bump to release ---
 
 echo ""
+echo "==> Committing version ${VERSION} to release..."
+git add "${REPO_ROOT}/kadence-blocks.php" "${REPO_ROOT}/readme.txt"
+git commit -m "Version ${VERSION}"
+
+# --- Create release branch and build ---
+
+echo "==> Creating ${RELEASE_BRANCH} from release..."
+if git show-ref --verify --quiet "refs/heads/${RELEASE_BRANCH}"; then
+    echo "    Removing leftover branch from a prior failed run..."
+    git branch -D "${RELEASE_BRANCH}"
+fi
+git checkout -b "${RELEASE_BRANCH}"
+
+echo ""
+echo "==> Cleaning build directories..."
+rm -rf "${REPO_ROOT}/dist/" "${REPO_ROOT}/vendor/"
+
 echo "==> Building composer dependencies..."
 composer install --no-dev --no-interaction --working-dir="${REPO_ROOT}"
 
 echo ""
-echo "==> Committing version ${VERSION}..."
-git add "${REPO_ROOT}/kadence-blocks.php" "${REPO_ROOT}/readme.txt"
+echo "==> Building JS assets..."
+npm run build
+
+echo "==> Adding build artifacts to ${RELEASE_BRANCH}..."
 git add -f "${REPO_ROOT}/vendor/"
+git add -f "${REPO_ROOT}/dist/"
+git add -f "${REPO_ROOT}/includes/assets/"
 git commit -m "Release ${TAG}"
 
 echo "==> Tagging ${TAG}..."
@@ -70,8 +114,11 @@ git tag "${TAG}"
 
 # --- Push ---
 
-echo "==> Pushing release branch and tag to origin..."
-git push origin release "${TAG}"
+echo "==> Pushing to origin..."
+git checkout release
+git push --atomic origin release "${RELEASE_BRANCH}" "${TAG}"
 
 echo ""
 echo "==> Released ${TAG}"
+echo "    Tag and built assets: ${RELEASE_BRANCH}"
+echo "    Working branch (release) has no build artifacts."
