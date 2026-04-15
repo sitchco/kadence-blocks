@@ -13,12 +13,12 @@ upstream tag (e.g. 3.7.0)
 ```
 
 - **`release`** — The fork's main working branch. All fork patches and feature branches live here. Contains source code only — no build artifacts (`dist/` is gitignored).
-- **`release/<version>`** — Created by `release.sh` for each tagged release. Branches from `release` and adds the built `dist/` directory. Tags point here. This is what downstream consumers (composer, deployments) should reference.
+- **`release/<version>`** — Created by `release.sh` for each tagged release. Branches from `release` and adds built artifacts (`dist/`, `vendor/`, `includes/assets/`). Tags point here. This is what downstream consumers (composer, deployments) should reference.
 - **`master`** — Tracks upstream. Not used in the sync or release flow; exists as a clean reference point for diffing against upstream (`git diff master..release`).
 - **`sync/<tag>`** — Temporary branch created during an upstream sync. Branches from `release`, merges in the upstream tag, and gets merged back to `release` after review.
 - **Feature branches** — Branch from and merge to `release`.
 
-The key constraint: **`release` only moves forward via merge commits** — never rebased, never force-pushed. This ensures that deployed SHAs and composer lock references remain permanently valid.
+The key constraint: **`release` only moves forward via merge commits and version-bump commits** — never rebased, never force-pushed. This ensures that deployed SHAs and composer lock references remain permanently valid.
 
 ## Version Scheme
 
@@ -136,9 +136,10 @@ Tags and pushes a release with built assets on a dedicated release branch.
 2. Runs `set-version.mjs` (auto-convert or bump)
 3. Commits the version change to `release`
 4. Creates `release/1003.7.0.0` from `release`
-5. Runs `npm run build` and force-adds `dist/`
-6. Commits the build artifacts and creates the git tag on the release branch
-7. Pushes `release`, the `release/<version>` branch, and the tag to origin
+5. Cleans build dirs, runs `composer install --no-dev` and `npm run build`
+6. Force-adds `vendor/`, `dist/`, and `includes/assets/` (gulp output)
+7. Commits the build artifacts and creates the git tag on the release branch
+8. Atomically pushes `release`, the `release/<version>` branch, and the tag to origin
 
 The `release` branch stays free of build artifacts. Tags and built assets live on `release/<version>` branches.
 

@@ -23,6 +23,17 @@ set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
+cleanup_on_error() {
+    echo ""
+    echo "==> Release failed. Returning to release branch."
+    git checkout release 2>/dev/null || true
+    echo "    To retry, you may need to:"
+    echo "    1. git reset --hard HEAD~1   (undo the version commit on release)"
+    echo "    2. git branch -D ${RELEASE_BRANCH:-}   (remove partial release branch)"
+    echo "    3. git tag -d ${TAG:-}   (remove partial tag)"
+}
+trap cleanup_on_error ERR
+
 # --- Preflight checks ---
 
 CURRENT_BRANCH="$(git branch --show-current)"
@@ -69,15 +80,22 @@ fi
 
 echo ""
 echo "==> Committing version ${VERSION} to release..."
-git add kadence-blocks.php readme.txt
+git add "${REPO_ROOT}/kadence-blocks.php" "${REPO_ROOT}/readme.txt"
 git commit -m "Version ${VERSION}"
 
 # --- Create release branch and build ---
 
 echo "==> Creating ${RELEASE_BRANCH} from release..."
+if git show-ref --verify --quiet "refs/heads/${RELEASE_BRANCH}"; then
+    echo "    Removing leftover branch from a prior failed run..."
+    git branch -D "${RELEASE_BRANCH}"
+fi
 git checkout -b "${RELEASE_BRANCH}"
 
 echo ""
+echo "==> Cleaning build directories..."
+rm -rf "${REPO_ROOT}/dist/" "${REPO_ROOT}/vendor/"
+
 echo "==> Building composer dependencies..."
 composer install --no-dev --no-interaction --working-dir="${REPO_ROOT}"
 
@@ -87,7 +105,8 @@ npm run build
 
 echo "==> Adding build artifacts to ${RELEASE_BRANCH}..."
 git add -f "${REPO_ROOT}/vendor/"
-git add -f dist/
+git add -f "${REPO_ROOT}/dist/"
+git add -f "${REPO_ROOT}/includes/assets/"
 git commit -m "Release ${TAG}"
 
 echo "==> Tagging ${TAG}..."
@@ -97,7 +116,7 @@ git tag "${TAG}"
 
 echo "==> Pushing to origin..."
 git checkout release
-git push origin release "${RELEASE_BRANCH}" "${TAG}"
+git push --atomic origin release "${RELEASE_BRANCH}" "${TAG}"
 
 echo ""
 echo "==> Released ${TAG}"
