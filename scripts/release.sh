@@ -10,13 +10,13 @@
 #   1. Ensures we're on the release branch with a clean tree
 #   2. Sets the version via set-version.mjs (auto-convert or bump)
 #   3. Commits the version change to release
-#   4. Creates release/<version> from release
+#   4. Creates releases/<version> from release
 #   5. Builds composer (vendor/) and npm (dist/) assets
-#   6. Commits the build artifacts and tags release/<version>
-#   7. Pushes release, the release/<version> branch, and the tag to origin
+#   6. Commits the build artifacts and tags releases/<version>
+#   7. Pushes release, the releases/<version> branch, and the tag to origin
 #
 # The release branch stays free of build artifacts. Tags and built
-# assets live on release/<version> branches, which is what downstream
+# assets live on releases/<version> branches, which is what downstream
 # consumers (composer, deployments) should reference.
 #
 set -euo pipefail
@@ -67,7 +67,7 @@ if [ -z "${VERSION}" ]; then
 fi
 
 TAG="v${VERSION}"
-RELEASE_BRANCH="release/${VERSION}"
+RELEASE_BRANCH="releases/${VERSION}"
 
 # Check if tag already exists
 if git rev-parse "refs/tags/${TAG}" &>/dev/null; then

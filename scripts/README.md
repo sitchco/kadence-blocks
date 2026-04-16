@@ -7,13 +7,13 @@ This directory contains scripts for maintaining the Sitchco fork of [Kadence Blo
 ```
 upstream tag (e.g. 3.7.0)
          \
-          sync/3.7.0  ──→  release  ──→  release/1003.7.0.0  ──→  v1003.7.0.0 (tag)
+          sync/3.7.0  ──→  release  ──→  releases/1003.7.0.0  ──→  v1003.7.0.0 (tag)
                               │
                          feature branches
 ```
 
 - **`release`** — The fork's main working branch. All fork patches and feature branches live here. Contains source code only — no build artifacts (`dist/` is gitignored).
-- **`release/<version>`** — Created by `release.sh` for each tagged release. Branches from `release` and adds built artifacts (`dist/`, `vendor/`, `includes/assets/`). Tags point here. This is what downstream consumers (composer, deployments) should reference.
+- **`releases/<version>`** — Created by `release.sh` for each tagged release. Branches from `release` and adds built artifacts (`dist/`, `vendor/`, `includes/assets/`). Tags point here. This is what downstream consumers (composer, deployments) should reference.
 - **`master`** — Tracks upstream. Not used in the sync or release flow; exists as a clean reference point for diffing against upstream (`git diff master..release`).
 - **`sync/<tag>`** — Temporary branch created during an upstream sync. Branches from `release`, merges in the upstream tag, and gets merged back to `release` after review.
 - **Feature branches** — Branch from and merge to `release`.
@@ -135,13 +135,13 @@ Tags and pushes a release with built assets on a dedicated release branch.
 1. Verifies we're on the `release` branch with a clean working tree and `node_modules` installed
 2. Runs `set-version.mjs` (auto-convert or bump)
 3. Commits the version change to `release`
-4. Creates `release/1003.7.0.0` from `release`
+4. Creates `releases/1003.7.0.0` from `release`
 5. Cleans build dirs, runs `composer install --no-dev` and `npm run build`
 6. Force-adds `vendor/`, `dist/`, and `includes/assets/` (gulp output)
 7. Commits the build artifacts and creates the git tag on the release branch
 8. Atomically pushes `release`, the `release/<version>` branch, and the tag to origin
 
-The `release` branch stays free of build artifacts. Tags and built assets live on `release/<version>` branches.
+The `release` branch stays free of build artifacts. Tags and built assets live on `releases/<version>` branches.
 
 ## Full Workflow Example
 
@@ -161,7 +161,7 @@ composer install  # verify PHP deps
 # 4. Merge into release
 git checkout release && git merge sync/3.7.0
 
-# 5. Release (builds assets, creates release/1003.7.0.0, tags)
+# 5. Release (builds assets, creates releases/1003.7.0.0, tags)
 ./scripts/release.sh
 
 # 6. Clean up
