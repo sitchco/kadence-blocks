@@ -79,9 +79,13 @@ fi
 # --- Commit version bump to release ---
 
 echo ""
-echo "==> Committing version ${VERSION} to release..."
 git add "${REPO_ROOT}/kadence-blocks.php" "${REPO_ROOT}/readme.txt"
-git commit -m "Version ${VERSION}"
+if git diff --cached --quiet; then
+    echo "==> Version ${VERSION} already committed."
+else
+    echo "==> Committing version ${VERSION} to release..."
+    git commit -m "Version ${VERSION}"
+fi
 
 # --- Create release branch and build ---
 
