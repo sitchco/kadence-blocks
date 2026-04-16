@@ -69,7 +69,8 @@ if (!arg) {
 	}
 	const parts = current.split('.').map(Number);
 	if (parts[0] >= FORK_MAJOR_OFFSET) {
-		console.log(`  Already a fork version: ${current}`);
+		console.log(`  Already a fork version.`);
+		console.log(`\n  Version: ${current}`);
 		process.exit(0);
 	}
 	// Auto-convert upstream version to fork version
