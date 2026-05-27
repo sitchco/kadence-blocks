@@ -1,27 +1,23 @@
-=== Gutenberg Blocks with AI by Kadence WP – Page Builder Features ===
+=== Kadence Blocks — Page Builder Toolkit for Gutenberg Editor ===
 Contributors: britner, oakesjosh, woodardmc, ghernkadence
 Tags: gutenberg, blocks, page builder, editor, gutenberg blocks
 Donate link: https://www.kadencewp.com/about-us/
 Requires at least: 6.6
-Tested up to: 6.9
-Stable tag: 1003.5.30.0
+Tested up to: 6.9.4
+Stable tag: 3.7.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-20+ AI-powered Gutenberg Blocks with endless options, enabling top-notch efficiency for high-performance dynamic website creation.
+20+ Gutenberg Blocks with endless options, enabling top-notch efficiency for high-performance dynamic website creation.
 
 == Description ==
 
-Kadence Blocks, now enhanced with AI tools, elevates Gutenberg’s editing capabilities with custom blocks and options so you can effortlessly craft stunning, high-performance websites. Each block is crafted with care in regard to performance, accessibility, and extensibility.
+Kadence Blocks extends the WordPress block editor with powerful custom blocks and advanced design controls, helping you build fast, accessible, and professional websites, without writing code.
 
-This toolkit extends the WordPress block editor's functionality, rivaling traditional page builders in creating visually impressive and engaging content without requiring any coding.
+Each block is built with performance, accessibility, and flexibility in mind, giving you the tools to create visually impressive layouts while maintaining clean, optimized output.
 
-With the integration of Kadence AI, enjoy features like AI-powered text generation, smart keyword optimization, and customizable design patterns, making web design more intuitive and efficient than ever before. Kadence AI also includes an inline editor within Kadence blocks so you can edit your content at any time using AI to tailor length, tone, and more.
-
-= Try Kadence Blocks =
-[Try Kadence Blocks](https://www.kadencewp.com/kadence-blocks/try/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) on a free demo site.
-[Try Kadence AI](https://www.kadencewp.com/wordpress-solutions/try-kadence-ai/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) on a free demo site.
+Whether you’re building landing pages, blogs, or full websites, Kadence Blocks provides a streamlined, modern workflow that rivals traditional page builders, directly inside the native WordPress editor.
 
 = Custom Blocks Include =
 * Accordion – Create [beautiful accordions!](https://www.kadencewp.com/kadence-blocks/custom-blocks/accordion-block/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) Each panel can contain any other block and customized title styles, content background, and borders.
@@ -49,12 +45,12 @@ With the integration of Kadence AI, enjoy features like AI-powered text generati
 https://www.youtube.com/watch?v=46P3kMrpFkQ
 
 = Key Block Features =
-* Inline AI Content Editor – Generate and [improve text on the fly with AI](https://www.kadencewp.com/kadence-ai-wordpress-website-builder/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks). Easily tailor your message and  tone to ensure your content stays polished, impactful, and error-free.
-* Design Library with AI – Overcome creative blocks and assemble a site in no time. Our [AI-powered Design Library](https://www.kadencewp.com/help-center/docs/kadence-blocks/how-to-control-the-kadence-design-library/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) offers hundreds of pre-built patterns and pages tailored to your unique brand
+* Content & Layout Flexibility: Build complex layouts with nested rows, responsive controls, and advanced spacing options, all within the block editor.
+* Design Library: Overcome creative blocks and assemble a site in no time. Our Design Library offers hundreds of pre-built patterns and pages tailored to your unique brand
 * Intelligent Load: Kadence Blocks won’t slow down your website because it only loads CSS or Javascript when you need it- and only for the blocks you are using on a specific page.
 * Responsive Controls: Tweak your design for each screen size. Edit tablet and mobile settings while previewing in WordPress editor.
 * Typography Controls: Choose from 900+ Google fonts and design your site with complete typography control.
-* Color & Background Controls: Gradients, overlays, parallax backgrounds, borders, etc. You can control all the design settings!
+* Color & Background Controls: Gradients, overlays, parallax backgrounds, borders, etc. You can control all the design settings\!
 * Configurable Defaults: Make development a breeze. Once the default settings are defined, every time you add a block those settings will automatically be applied.
 * Setting Visibility Controls: Hide block settings from certain user roles so they can focus on content and you can keep them out of the block designs.
 * Spacing Controls: Control paddings and margins for your blocks in whatever units you like. Customize responsively for precision spacing and design.
@@ -72,7 +68,6 @@ Check out some tutorials by creators who love Kadence (and think you should, too
 
 * [Kadence Blocks Tutorials](https://youtube.com/playlist?list=PLV0AfjbtxNdrAg6ynj2PGSGZ--IAiluxJ&si=ZbIhYyFGn6YOrQm6) by StartBlogging101
 * [The Ultimate Kadence Guide for Beginners](https://youtu.be/ZWavuOtC5Yw?si=n9D5BZ8AbptHiwtO) by CliftonWP
-* [First look at the New Kadence AI Starter Templates](https://youtu.be/2iOyifwwuCY?si=24Hw5RXGcLBAPhy1) by Easy WordPress Tricks
 
 = Get More from Kadence WP =
 Enhance your page building experience even more with these additional [Pro Blocks](https://www.kadencewp.com/kadence-blocks/pro/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks):
@@ -93,12 +88,11 @@ Get over creative blocks and engage your viewers further with these [Premium Fea
 * [Custom Fonts](https://www.kadencewp.com/help-center/docs/kadence-blocks/kadence-custom-fonts/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks)
 * [Dynamic Content](https://www.kadencewp.com/help-center/docs/kadence-blocks/dynamic-content/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks)
 * Page Specific Scripts
-* 400+ [Design Library](https://www.kadencewp.com/introducing-the-innovative-kadence-design-library-revolutionizing-the-world-of-design-patterns/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) patterns with custom AI-powered content
-* Up to 8,000 [AI Credits](https://www.kadencewp.com/wordpress-solutions/kadence-ai/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) per year for starter templates, design library and inline text editing
+* 800+ [Design Library](https://www.kadencewp.com/introducing-the-innovative-kadence-design-library-revolutionizing-the-world-of-design-patterns/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) patterns
 
 Power-up your WordPress site with the comprehensive [Kadence WP suite](https://www.kadencewp.com/wordpress-solutions/all-individual-premium-products/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks):
 * Start with the [Kadence Theme](https://www.kadencewp.com/kadence-theme/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) for a flexible, fast, and lightweight foundation.
-* Create personalized, professionally designed websites in minutes with [AI-powered starter templates](https://www.kadencewp.com/wordpress-solutions/kadence-ai/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks).
+* Create personalized, professionally designed websites in minutes with pre-designed Starter Templates.
 * Seamlessly integrate powerful WooCommerce capabilities through [ShopKit](https://www.kadencewp.com/kadence-shopkit/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks).
 * Upgrade your marketing strategy and boost revenue with [Kadence Conversions](https://www.kadencewp.com/kadence-conversions/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks).
 * Create a custom library of templates on [Kadence Pattern Hub](https://www.kadencewp.com/kadence-cloud/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) and commoditize your design talents.
@@ -146,10 +140,11 @@ Kadence Blocks are advanced Gutenberg blocks that extend the capabilities of the
 Yes, Kadence Blocks is a robust free plugin that offers a range of custom blocks and tools. There is a Premium addon for those who are looking for even more features. You can see a detailed list outlining what is in [Kadence Blocks vs Kadence Blocks Pro on our site](https://www.kadencewp.com/kadence-blocks/pro/#compare).
 
 = Can I use Kadence Blocks with my current WordPress theme? =
-Absolutely! Kadence Blocks is designed to work seamlessly with most WordPress themes, enhancing your current design capabilities. We recommend using our free theme, [Kadence Theme](https://www.kadencewp.com/kadence-theme/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) with 300,000+ active installs.
+Absolutely! Kadence Blocks is designed to work seamlessly with most WordPress themes, enhancing your current design capabilities. We recommend using our free theme, [Kadence Theme](https://www.kadencewp.com/kadence-theme/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) with 500,000+ active installs.
 
 = What unique features does Kadence Blocks offer? =
-Kadence Blocks offers plenty of [unique, easy-to-use features](https://www.kadencewp.com/kadence-blocks/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) like our Design Library which is complete with hundreds of unique patterns that can be tailored to your brand with AI. We offer advanced gallery options, configurable block defaults, and visibility controls for block settings.
+Kadence Blocks offers plenty of [unique, easy-to-use features](https://www.kadencewp.com/kadence-blocks/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks) like our Design Library which is complete with hundreds of unique patterns that can be tailored to your branding style. We offer advanced gallery options, configurable block defaults, and visibility controls for block settings.
+
 
 = Does Kadence Blocks support dynamic content for my website? =
 Yes, our [Pro addon supports dynamic content](https://www.kadencewp.com/kadence-blocks/pro/?utm_source=wordpress&utm_medium=referral&utm_campaign=read-me&utm_content=kadence-blocks), allowing you to create highly dynamic and interactive websites easily when you upgrade to Pro. Use your own meta fields from ACF and MetaBox as well as custom fields from WooCommerce, The Events Calendar, and other third party plugins.
@@ -173,6 +168,95 @@ Please report security bugs found in the source code of the Kadence Blocks plugi
 Please report security bugs found in the Kadence Blocks plugin's source code through the Patchstack Vulnerability Disclosure Program https://patchstack.com/database/vdp/kadence-blocks. The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Changelog ==
+
+= 3.7.2 =
+Release Date: 13th May 2026
+* Tweak: Update Harbor to 1.2.0, removing the Liquid Web Products page when there are no premium plugins present.
+
+= 3.7.1 =
+Release Date: 12th May 2026
+* Tweak: Moved the Liquid Web menu item to Settings -> Liquid Web Products.
+* Tweak: The Settings -> Liquid Web Products page now requires a opt-in to communicate with external servers.
+
+= 3.7.0 =
+Release Date: 11th May 2026
+* Feature - Integrate with Nexcess Licensing and Portal.
+
+= 3.6.7 =
+Release Date: 8th April 2026
+* Fix: Fatal TypeError in Optimizer meta handler during WooCommerce product meta updates.
+* Fix: Fatal Error when updating Kadence Blocks.
+
+= 3.6.6 =
+Release Date: 11th March 2026
+* Fix: Advanced Headers - Sticky Headers render incorrectly, causing a shift/jump
+* Fix: Unable to write number in infobox when animation is enabled
+
+= 3.6.5 =
+Release Date: 25rd February 2026
+* Fix: Kadence Performance Optimizer Database Index Size Error
+* Fix: Text (Adv) Block: Content misaligned when 400% zoom is applied.
+* Fix: Text (Adv) Block: Dynamic content announced incorrectly
+* Fix: Text (Adv) Block: Animation does not respect prefers-reduced-motion.
+* Fix: Animate on Scroll: Animation does not respect prefers-reduced-motion.
+* Fix: Table (Adv) Block - Table Cells do not have closing HTML Tags in Raw HTML .
+* Fix: Gallery(Adv) carousel not working inside Ultimate Menu custom content (via Elements).
+* Fix: Height issues on Sticky Header
+
+= 3.6.4 =
+Release Date: 23rd February 2026
+* Fix: Updating permissions on image rest endpoints.
+
+= 3.6.3 =
+Release Date: 11th February 2026
+* Fix: The "Make Parent of Current Menu Item Active" Setting is always active | Navigation (Adv)
+* Fix: Row Layout Custom CSS formatting breaks when exporting/importing Advanced Header Blocks
+* Fix: Modal content is not showing WP patterns when aligned to left or right
+* Add: Aria-label options for the Table(Adv) block
+* Update: Show More: Button is not keyboard operable
+* Update: Show More: Hidden content accessible via keyboard
+* Update: Show More: Hidden elements are exposed to screen readers
+* Update: Countdown: Missing Pause button for Animated element longer than 5 seconds
+* Fix: Countdown: Status message not announced by screen readers
+* Fix: Countdown missing timer role
+* Fix: Navigation Submenu hides right away when spacing is added
+* Add: Overlay Color settings to Nav Link Images
+
+= 3.6.2 =
+Release Date: 5th February 2026
+* Fix: Correct Authorization for Media Upload for some user roles
+* Fix: Don't run optimizer when in WP CLI
+
+= 3.6.1 =
+Release Date: 29th January 2026
+* Fix: Issue with icon block in shop kit product tabs
+* Fix: Table(Adv) background/headings not working when inside of Row/Section
+* Fix: Design Library sometimes not showing preview
+* Fix: Wrong Text Domain in class-kadence-header-cpt.php
+* Fix: Add null checks for contentTab in kt-tabs.js
+* Fix: Issue with WPML and ACF image translation syncing
+* Fix: Links in Advanced Heading and Buttons Block Not Translatable
+* Fix: Kadence Blocks preventing Appearance > Widgets from loading.
+
+= 3.6.0 =
+Release Date: 22nd January 2026
+* New: Performance optimizer extension. Enable it in the Kadence blocks settings in the gutenberg editor.
+* Fix: Permission checks on Block Patterns API
+
+= 3.5.32 =
+Release Date: 15th January 2026
+* Update: Begin sunsetting classic form block - hide in block appender, classic form blocks still usable
+* Fix: “Slide In From” setting in the Off Canvas panel not applying on mobile.
+* Fix: Mobile Collapse Order not working when using Reverse
+* Fix: Box shadow preset is missing for infobox block
+* Fix: Spacing appears in Text (Adv) Block only when background color is chosen via swatch
+* Fix: Kadence Blocks custom colors not available while editing Patterns.
+* Fix: Lightbox not working on Slider, Carousel and Fluid Carousel
+* Fix: Gallery (Adv) slider: arrow and dot controls ignored on frontend
+
+= 3.5.31 =
+Release Date: 9th January 2026
+* Fix: issue with adv highlight padding
 
 = 3.5.30 =
 Release Date: 8th January 2026
@@ -228,7 +312,7 @@ Release Date: 9th October 2025
 = 3.5.22 =
 Release Date: 25th September 2025
 * Fix: Removed default navigation submenu box shadow when disabled.
-* Update: When prefers-reduced-motion is enabled, Countup block now only shows the end value. 
+* Update: When prefers-reduced-motion is enabled, Countup block now only shows the end value.
 * Update: Gallery tiles layout outer div updated to ul to match inner markup.
 
 = 3.5.21 =
@@ -258,7 +342,7 @@ Release Date: 19th August 2025
 = 3.5.17 =
 Release Date: 14th August 2025
 * Add: Option to reveal icons for buttons on hover.
-* Add: Mosaic gallery support for pro features. 
+* Add: Mosaic gallery support for pro features.
 * Add: Custom option for autofill value on advanced form input fields.
 * Add: Pause button option for sliders with autoplay
 * Update: Slides in sliders are now semantic list items
@@ -290,7 +374,7 @@ Release Date: 28th July 2025
 
 = 3.5.15 =
 Release Date: 23rd July 2025
-* Fix: Mosaic gallery custom link in editor. 
+* Fix: Mosaic gallery custom link in editor.
 * Fix: Block defaults not applying to new blocks.
 * Fix: Add link support to advanced text block in some templates.
 
@@ -312,7 +396,7 @@ Release Date: 15th July 2025
 
 = 3.5.12 =
 Release Date: 2nd July 2025
-* Update: Header block off canvas trigger focus styles. 
+* Update: Header block off canvas trigger focus styles.
 * Fix: Icon List default bottom margin.
 * Fix: Count Up block responsive font, number size, line height preview in editor.
 * Fix: Content for Testimonial block when copy/paste styles.

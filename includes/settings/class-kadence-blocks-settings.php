@@ -9,11 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use function KadenceWP\KadenceBlocks\StellarWP\Uplink\get_authorization_token;
 use function KadenceWP\KadenceBlocks\StellarWP\Uplink\get_disconnect_url;
 use function KadenceWP\KadenceBlocks\StellarWP\Uplink\get_license_domain;
-use function KadenceWP\KadenceBlocks\StellarWP\Uplink\is_authorized;
 use function KadenceWP\KadenceBlocks\StellarWP\Uplink\build_auth_url;
+use KadenceWP\KadenceBlocks\Home\Home_Content_View_Model;
 
 /**
  * Build Welcome Page class
@@ -81,6 +80,7 @@ class Kadence_Blocks_Settings {
 		add_action( 'init', [ $this, 'load_api_settings' ] );
 		add_action( 'after_setup_theme', [ $this, 'load_color_palette' ], 999 );
 		add_filter( 'block_editor_settings_all', [ $this, 'load_color_palette_editor_settings' ], 999 );
+		add_filter( 'wp_theme_json_data_theme', [ $this, 'load_color_palette_theme_json' ], 999 );
 		add_action( 'init', [ $this, 'init_post_meta' ] );
 		add_action( 'admin_head-post.php', [ $this, 'admin_editor_width' ], 100 );
 		add_action( 'admin_head-post-new.php', [ $this, 'admin_editor_width' ], 100 );
@@ -416,8 +416,69 @@ class Kadence_Blocks_Settings {
 				}
 			}
 		}
-
 		return $settings;
+	}
+	/**
+	 * Load custom colors into theme.json for Site Editor compatibility.
+	 *
+	 * @param WP_Theme_JSON_Data $theme_json The theme.json data object.
+	 * @return WP_Theme_JSON_Data Modified theme.json data.
+	 */
+	public function load_color_palette_theme_json( $theme_json ) {
+		$palette = json_decode( get_option( 'kadence_blocks_colors' ), true );
+		if ( isset( $palette['palette'] ) && is_array( $palette['palette'] ) && ! empty( $palette['palette'] ) ) {
+			$san_palette = [];
+			foreach ( $palette['palette'] as $item ) {
+				$san_palette[] = [
+					'color' => $item['color'],
+					'name'  => $item['name'],
+					'slug'  => $item['slug'],
+				];
+			}
+			if ( ! empty( $san_palette ) ) {
+				$data = $theme_json->get_data();
+				$override = isset( $palette['override'] ) && true === $palette['override'];
+
+				if ( $override ) {
+					// Override mode: only show custom colors, replace theme palette.
+					$theme_json->update_with(
+						[
+							'version'  => 2,
+							'settings' => [
+								'color' => [
+									'palette' => [
+										'theme' => $san_palette,
+									],
+								],
+							],
+						]
+					);
+				} else {
+					// Merge mode: add custom colors to theme palette.
+					$existing_theme = isset( $data['settings']['color']['palette']['theme'] )
+						? $data['settings']['color']['palette']['theme']
+						: [];
+
+					// Merge custom colors with theme palette.
+					$merged_palette = array_merge( $existing_theme, $san_palette );
+					$merged_palette = array_values( array_map( 'unserialize', array_unique( array_map( 'serialize', $merged_palette ) ) ) );
+
+					$theme_json->update_with(
+						[
+							'version'  => 2,
+							'settings' => [
+								'color' => [
+									'palette' => [
+										'theme' => $merged_palette,
+									],
+								],
+							],
+						]
+					);
+				}
+			}
+		}
+		return $theme_json;
 	}
 	/**
 	 * Load Gutenberg Palette
@@ -502,22 +563,31 @@ class Kadence_Blocks_Settings {
 					$newpalette = $san_palette;
 				}
 				add_theme_support( 'editor-color-palette', $newpalette );
-				add_action( 'wp_head', [ $this, 'print_gutenberg_style' ], 8 );
-				add_action( 'admin_print_styles', [ $this, 'print_gutenberg_style' ], 21 );
+				add_action( 'wp_head', [ $this, 'print_color_palette_css' ], 8 );
+				add_filter( 'block_editor_settings_all', [ $this, 'add_color_palette_css_to_block_editor' ], 999 );
 			}
 		}
 	}
-	/**
-	 * Print Gutenberg Palette Styles
-	 */
-	public function print_gutenberg_style() {
-		if ( is_admin() ) {
-			$screen = get_current_screen();
-			if ( ! $screen || ! $screen->is_block_editor() ) {
-				return;
-			}
+
+	public function print_color_palette_css() {
+		if ( $css = $this->get_color_palette_css() ) {
+			printf( '<style id="kadence_blocks_palette_css">%s</style>', $css ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 		}
+	}
+
+	public function add_color_palette_css_to_block_editor(array $settings) {
+		if ( $css = $this->get_color_palette_css() ) {
+			$settings['styles'][] =[
+				'css' => $css,
+			];
+		}
+
+		return $settings;
+	}
+
+	private function get_color_palette_css() {
 		$palette = json_decode( get_option( 'kadence_blocks_colors' ) );
+
 		if ( $palette && is_object( $palette ) && isset( $palette->palette ) && is_array( $palette->palette ) ) {
 			$san_palette = [];
 			foreach ( $palette->palette as $item ) {
@@ -528,16 +598,20 @@ class Kadence_Blocks_Settings {
 				];
 			}
 			if ( isset( $san_palette[0] ) ) {
-				echo '<style id="kadence_blocks_palette_css">';
+				$color_palette_css = '';
 				foreach ( $san_palette as $set ) {
 					$slug  = $set['slug'];
 					$color = $set['color'];
-					echo ':root .has-' . esc_attr( $slug ) . '-color{color:' . esc_attr( $color ) . '}:root .has-' . esc_attr( $slug ) . '-background-color{background-color:' . esc_attr( $color ) . '}';
+					$color_palette_css .= ':root .has-' . esc_attr( $slug ) . '-color{color:' . esc_attr( $color ) . '}:root .has-' . esc_attr( $slug ) . '-background-color{background-color:' . esc_attr( $color ) . '}';
 				}
-				echo '</style>';
+
+				return $color_palette_css;
 			}
 		}
+
+		return null;
 	}
+
 	/**
 	 * Redirect to the settings page on activation
 	 */
@@ -721,6 +795,8 @@ class Kadence_Blocks_Settings {
 	}
 	/**
 	 * Loads admin style sheets and scripts
+	 *
+	 * @since 3.7.0 added homeContent, aiDisabledMessage
 	 */
 	public function home_scripts() {
 		$using_network_enabled = false;
@@ -729,18 +805,15 @@ class Kadence_Blocks_Settings {
 		if ( $network_enabled && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'kadence-blocks/kadence-blocks.php' ) ) {
 			$using_network_enabled = true;
 		}
-		$token          = get_authorization_token( 'kadence-blocks' );
 		$auth_url       = build_auth_url( apply_filters( 'kadence-blocks-auth-slug', 'kadence-blocks' ), get_license_domain() );
 		$license_key    = kadence_blocks_get_current_license_key();
 		$disconnect_url = '';
-		$is_authorized  = false;
-		if ( ! empty( $license_key ) && ! kadence_blocks_is_ai_disabled() ) {
-			$is_authorized = is_authorized( $license_key, 'kadence-blocks', ( ! empty( $token ) ? $token : '' ), get_license_domain() );
-		}
+		$is_authorized  = ! kadence_blocks_is_ai_disabled() && kadence_blocks_is_legacy_license_authorized();
 
 		if ( $is_authorized ) {
 			$disconnect_url = get_disconnect_url( 'kadence-blocks' );
 		}
+
 		// Icons Scripts & Styles.
 		$kadence_icons_meta = kadence_blocks_get_asset_file( 'dist/icons' );
 		wp_register_script( 'kadence-icons', KADENCE_BLOCKS_URL . 'dist/icons.js', array_merge( $kadence_icons_meta['dependencies'], [ 'wp-api' ] ), $kadence_icons_meta['version'], true );
@@ -767,6 +840,10 @@ class Kadence_Blocks_Settings {
 		$kadence_home_meta = kadence_blocks_get_asset_file( 'dist/admin-kadence-home' );
 		wp_enqueue_script( 'admin-kadence-home', KADENCE_BLOCKS_URL . 'dist/admin-kadence-home.js', $kadence_home_meta['dependencies'], $kadence_home_meta['version'], true );
 		wp_enqueue_style( 'admin-kadence-home', KADENCE_BLOCKS_URL . 'dist/admin-kadence-home.css', [ 'wp-edit-blocks', 'kadence-components' ], $kadence_home_meta['version'] );
+
+		// Banner Config.
+		$home_content = new Home_Content_View_Model();
+
 		wp_localize_script(
 			'admin-kadence-home',
 			'kadenceHomeParams',
@@ -776,6 +853,8 @@ class Kadence_Blocks_Settings {
 				'site_name'        => sanitize_title( get_bloginfo( 'name' ) ),
 				'pSlug'            => apply_filters( 'kadence-blocks-auth-slug', 'kadence-blocks' ),
 				'isAIDisabled'     => kadence_blocks_is_ai_disabled(),
+				'homeContent'      => $home_content->exports(),
+				'aiDisabledMessage' => kadence_blocks_get_ai_disabled_message(),
 				'pVersion'         => KADENCE_BLOCKS_VERSION,
 				'isAuthorized'     => $is_authorized,
 				'licenseKey'       => $license_key,
@@ -1148,7 +1227,7 @@ class Kadence_Blocks_Settings {
 			echo '<option value="true" ' . ( 'true' === $default ? 'selected' : '' ) . '>' . esc_html__( 'True', 'kadence-blocks' ) . '</option>';
 		echo '</select>';
 	}
-	
+
 	/**
 	 * Outputs admin bar settings field
 	 */
@@ -1420,7 +1499,7 @@ class Kadence_Blocks_Settings {
 				'linkText' => __( 'Manage Lottie Animations', 'kadence-blocks' ),
 			],
 			'kadence/vector'          => [
-				'slug'     => 'kadence/vector', 
+				'slug'     => 'kadence/vector',
 				'name'     => __( 'Vector Graphics', 'kadence-blocks' ),
 				'desc'     => __( 'Add custom vector icons and SVGs to enhance your site design.', 'kadence-blocks' ),
 				'link'     => admin_url( 'edit.php?post_type=kadence_vector' ),

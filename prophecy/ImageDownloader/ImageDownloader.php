@@ -123,7 +123,7 @@ final class ImageDownloader
 	 *    }>         $image_response The response from our GraphQL images Query.
 	 * @param string $path The directory to save images in.
 	 *
-	 * @throws ImageDownloadException|\Throwable
+	 * @throws ImageDownloadException|\Kadence_Blocks_Throwable
 	 *
 	 * @return array<int, array<string, DownloadedImage>> A list of arrays, indexed by their thumbnail size name.
 	 */
@@ -201,7 +201,7 @@ final class ImageDownloader
 	 *
 	 * @param ResponseAdapter[] $responses
 	 *
-	 * @throws \Throwable
+	 * @throws \Kadence_Blocks_Throwable
 	 */
 	private function processResponses(array $responses, string $path): void {
 		foreach ($responses as $response) {

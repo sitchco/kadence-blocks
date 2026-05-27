@@ -54,8 +54,10 @@
 						subElem.setAttribute('id', uniqueId);
 
 						if (!isAccordion) {
-							contentTab.setAttribute('aria-labelledby', uniqueId);
-							contentTab.setAttribute('id', `${uniqueId}-panel`);
+							if (contentTab) {
+								contentTab.setAttribute('aria-labelledby', uniqueId);
+								contentTab.setAttribute('id', `${uniqueId}-panel`);
+							}
 							parentListItem.setAttribute('role', 'presentation');
 							subElem.setAttribute('role', 'tab');
 							subElem.setAttribute('aria-controls', `${uniqueId}-panel`);
@@ -64,9 +66,11 @@
 							subElem.setAttribute('aria-selected', isActive ? true : false);
 						}
 
-						contentTab.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+						if (contentTab) {
+							contentTab.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+						}
 
-						if (isActive) {
+						if (isActive && contentTab) {
 							contentTab.style.display = 'block';
 						}
 					});

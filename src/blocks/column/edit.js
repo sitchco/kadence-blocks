@@ -1437,7 +1437,7 @@ function SectionEdit(props) {
 					? `.kt-row-layout-row > .innerblocks-wrap > .kadence-column-${uniqueID} { order:${collapseOrder}; }`
 					: ''}
 				{collapseOrder && previewDevice === 'Mobile'
-					? `.kadence-column-${uniqueID} { order:${collapseOrder}; }`
+					? `.kadence-column-${uniqueID} { order:${collapseOrder} !important; }`
 					: ''}
 
 				{displayHoverShadow &&

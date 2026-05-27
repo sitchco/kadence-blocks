@@ -1,10 +1,16 @@
 import { map } from 'lodash';
 
-import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
+import { PluginSidebar, PluginSidebarMoreMenuItem, store as editorStore } from '@wordpress/editor';
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState } from '@wordpress/element';
-import { PanelBody, Button } from '@wordpress/components';
+import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
+import { PanelBody, Button, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { external } from '@wordpress/icons';
+import { store as coreStore } from '@wordpress/core-data';
+import { store as preferencesStore } from '@wordpress/preferences';
+import { store as noticesStore } from '@wordpress/notices';
+import { addQueryArgs } from '@wordpress/url';
 /**
  * Import Icons
  */
@@ -26,6 +32,7 @@ import ExportDefaults from './block-defaults/export-defaults';
 import ImportDefaults from './block-defaults/import-defaults';
 import ResetDefaults from './block-defaults/reset-defaults';
 import DefaultEditorBlock from './default-editor-block';
+
 /**
  * Build the row edit
  */
@@ -40,6 +47,8 @@ function KadenceConfig() {
 	const [controlIcon, setControlIcon] = useState(
 		applyFilters('kadence.block_sidebar_control_icon', BlockIcons.kadenceNewIcon)
 	);
+
+
 	return (
 		<Fragment>
 			<PluginSidebarMoreMenuItem target="kadence-controls" icon={controlIcon}>
